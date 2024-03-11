@@ -6,7 +6,6 @@ const int errorsetmodeinp = _setmode(_fileno(stdin), _O_U16TEXT);
 const int errorsetmodeerr = _setmode(_fileno(stderr), _O_U16TEXT);
 #endif
 
-// цвет в консоли
 void consoleCol(COLOR color)
 {
 #ifdef _WIN32
@@ -29,7 +28,6 @@ void consoleClear()
 	std::system("clear");
 #endif
 }
-
 // Convert an ANSI string to a wide Unicode String
 // https://gist.github.com/rosasurfer/33f0beb4b10ff8a8c53d943116f8a872#file-conversion-cpp
 std::wstring ansi2wideUtf(const std::string& str)
@@ -45,7 +43,6 @@ std::wstring ansi2wideUtf(const std::string& str)
     return myconv.from_bytes(str);
 #endif
 }
-
 // Convert a wide Unicode string to an UTF8 string
 std::string wideUtf2utf8(const std::wstring& wstr)
 {
@@ -54,7 +51,6 @@ std::string wideUtf2utf8(const std::wstring& wstr)
 	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
 	return strTo;
 }
-
 // Convert an UTF8 string to a wide Unicode String
 std::wstring utf82wideUtf(const std::string &str)
 {
@@ -63,7 +59,6 @@ std::wstring utf82wideUtf(const std::string &str)
 	MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
 	return wstrTo;
 }
-
 // Convert an wide Unicode string to ANSI string
 std::string wideUtf2ansi(const std::wstring &wstr)
 {

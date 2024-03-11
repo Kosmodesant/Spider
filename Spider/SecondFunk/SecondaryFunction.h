@@ -10,7 +10,6 @@ using COLOR = const char*;
 namespace col
 {
 	const COLOR cancel("\033[0m");		//отменить цвет
-
 	const COLOR black("\033[30m");		//черный
 	const COLOR red("\033[31m");		//красный
 	const COLOR green("\033[32m");		//зеленый
