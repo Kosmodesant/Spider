@@ -8,14 +8,12 @@ template<class Task>
 class Safe_queue
 {
 private:
-	std::mutex taskLock;		// мьютекс для блокировки очереди задач
-	std::condition_variable taskCondition; // для уведомлений
-	std::queue<Task> taskList;	// очередь задач
+	std::mutex taskLock;
+	std::condition_variable taskCondition; 
+	std::queue<Task> taskList;
 
 public:
-	// записывает в начало очереди новую задачу, при этом
-	// захватывает мьютекс, а по окончании операции
-	// нотифицируется условная переменная
+
 	void push(const Task& task)
 	{
 		{
@@ -24,9 +22,7 @@ public:
 		}
 		taskCondition.notify_one();
 	}
-	// находится в ожидании пока не придут уведомления
-	// на условную переменную. При нотификации условной
-	// переменной. данные считываются из очереди
+
 	Task pop()
 	{
 		std::unique_lock<std::mutex> lock(taskLock);
@@ -36,7 +32,7 @@ public:
 		taskList.pop();
 		return task;
 	}
-	// возвращает true если очередь пуста
+
 	bool empty()
 	{
 		std::lock_guard<std::mutex> lock(taskLock);

@@ -17,23 +17,11 @@ std::wstring HtmlClient::do_request(std::string urlStr)
             }
             else parseErr = false;
         } while (parseErr);
-        ////////////////////////////////////////////
-        //std::wcout << L"----------------\n";
-        //std::wcout << L"URL parse... \n";
-        //std::wcout << L"protocol: " << utf82wideUtf(url.scheme()) << "\n";
-        //std::wcout << L"domain:   " << utf82wideUtf(url.host()) << "\n";
-        //std::wcout << L"path:     " << utf82wideUtf(url.path()) << "\n";
-        ////////////////////////////////////////////
 
-        // Список конечных точек
-        // host: en.wikipedia.org, scheme: https
         tcp::resolver resolver{ ioc };
         tcp::resolver::query query(url.host(), url.scheme());
         tcp::resolver::results_type sequenceEp = resolver.resolve(query);
         int port = sequenceEp->endpoint().port();
-        ////////////////////////////////////////////
-        //std::wcout << L"port:     " << port << '\n';
-        ////////////////////////////////////////////
 
         // Настройка запроса HTTP GET
         http::request<http::string_body> request;
@@ -43,11 +31,7 @@ std::wstring HtmlClient::do_request(std::string urlStr)
         request.keep_alive(true);
         request.set(http::field::host, url.host()); // host: en.wikipedia.org
         request.set(http::field::user_agent, "Spider");
-        ////////////////////////////////////////////
-        //std::stringstream ss;
-        //ss << request;
-        //std::wcout << L"\nRequest: " << utf82wideUtf(ss.str());
-        ////////////////////////////////////////////
+
         std::wstring str = (port == 443) ?
             httpsRequest(sequenceEp, request) :
             httpRequest(sequenceEp, request);

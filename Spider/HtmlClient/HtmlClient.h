@@ -18,7 +18,6 @@ using tcp = net::ip::tcp;           // from <boost/asio/ip/tcp.hpp>
 class HtmlClient
 {
 private:
-	// io_context требуется для всех операций ввода-вывода.
 	net::io_context ioc;
 
 	std::wstring do_request(std::string urlStr);

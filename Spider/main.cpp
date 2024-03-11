@@ -53,7 +53,6 @@ int main(int argc, char** argv)
 
 static void spiderTask(const Link url, std::shared_ptr<Lock> lock, Thread_pool& threadPool)
 {
-    // Загрузка очередной странички
     if (url.recLevel > 0) {
         lock->console.lock();
         std::wcout << L"   url: " << utf82wideUtf(url.link_str) << " (" << url.recLevel << ")\n";
@@ -62,10 +61,8 @@ static void spiderTask(const Link url, std::shared_ptr<Lock> lock, Thread_pool& 
         std::wstring page;
         {
             HtmlClient client;
-            page = client.getRequest(url.link_str); // url -> page
+            page = client.getRequest(url.link_str); 
         }
-
-        // Поиск слов/ссылок на страничке
         if (page.empty() == false) {
             std::pair<WordMap, LinkList> wordlinks;
             try
@@ -73,9 +70,8 @@ static void spiderTask(const Link url, std::shared_ptr<Lock> lock, Thread_pool& 
                 {
                     std::lock_guard<std::mutex> lg(lock->parse);
                     WordSearch words;
-                    wordlinks = words.getWordLink(std::move(page), url.recLevel); // page, recurse -> word, amount, listLink
+                    wordlinks = words.getWordLink(std::move(page), url.recLevel);
                 }
-                // добавление задач в очередь
                 for (const auto& link : wordlinks.second) {
                     threadPool.add([link, lock, &threadPool] { spiderTask(link, lock, threadPool); });
                 }
@@ -90,7 +86,6 @@ static void spiderTask(const Link url, std::shared_ptr<Lock> lock, Thread_pool& 
                 consoleCol(col::cancel);
             }
 
-            // Сохранение найденных слов/ссылок в БД
             if (wordlinks.first.empty() == false) {
                 try
                 {

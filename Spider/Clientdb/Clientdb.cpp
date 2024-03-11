@@ -93,15 +93,6 @@ std::wstring Clientdb::dbname()
 
 int Clientdb::addLink(const std::string& link)
 {
-	/*
-	int id = getIdLink(link);
-	if (id)
-	{
-		deleteLink(id);
-		deleteNotUseWord();
-	}
-	return createLink(link);
-	*/
 	int id = getIdLink(link);
 	if (id == 0) id = createLink(link);
 	else delFromLinkWords(id);

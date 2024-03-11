@@ -6,7 +6,6 @@
 #include <vector>
 #include "SecondaryFunction.h"
 #include "../Types.h"
-
 struct ConnectData {
 	std::string host;
 	unsigned port;
